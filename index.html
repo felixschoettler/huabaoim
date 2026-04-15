@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huabaoim – Café Almwirtschaft Hausham</title>
+<meta name="description" content="Bayrische Gastlichkeit auf der Huberbergalm in Hausham. Kaffädschal und vui Guads mit Blick auf die Schlierseer Berge.">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --blue-dark:#1a3a6b; --blue-mid:#2855a0; --green:#2e7d32;
+  --cream:#f7f9fc; --text:#1a2540; --border:#c5d4ea;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color:var(--text); background:var(--cream); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(160deg, #0d2347 0%, #1a3a6b 50%, #1b5e20 100%);
+  padding: 2rem 1.5rem 1.8rem;
+  display:flex; flex-direction:column; align-items:center;
+}
+.hero-frame {
+  position:relative;
+  border: 5px solid #c8a84b;
+  border-radius: 14px;
+  box-shadow: 0 0 0 2px #1a3a6b, 0 0 0 7px #c8a84b, 0 8px 36px rgba(0,0,0,0.5);
+  overflow:hidden;
+  max-width: 780px;
+  width: 100%;
+  line-height:0;
+}
+.hero-frame::before {
+  content:'';
+  position:absolute; inset:8px;
+  border: 1.5px solid rgba(200,168,75,0.5);
+  border-radius: 8px;
+  z-index:2; pointer-events:none;
+}
+.hero-banner {
+  width:100%; display:block;
+  object-fit:cover; object-position:center top;
+  max-height:360px;
+}
+.hero-cta-wrap {
+  margin-top:1.4rem;
+}
+.hero-cta {
+  background:rgba(255,255,255,0.92); color:#1a3a6b;
+  border: 2px solid #c8a84b;
+  border-radius:6px; padding:0.7rem 2.2rem;
+  font-size:0.92rem; font-weight:600; cursor:pointer;
+  box-shadow:0 2px 12px rgba(0,0,0,0.25); white-space:nowrap;
+  letter-spacing:0.03em;
+}
+.hero-cta:hover { background:white; }
+
+/* NAV */
+nav {
+  background:#1a3a6b;
+  display:flex; justify-content:center; align-items:center;
+  padding:0 1.5rem; flex-wrap:wrap; gap:0;
+  border-top: 1px solid rgba(200,168,75,0.4);
+  border-bottom: 1px solid rgba(200,168,75,0.4);
+  position: relative;
+}
+.nav-links { display:flex; flex-wrap:wrap; justify-content:center; flex:1; }
+nav a {
+  color:#c8d8f0; text-decoration:none;
+  padding:1rem 1.4rem; font-size:0.9rem; cursor:pointer;
+  letter-spacing:0.06em; font-weight:500;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+nav a:hover { color:white; border-bottom-color:#c8a84b; }
+.lang-sw { display:flex; gap:5px; padding:0.6rem; position:absolute; right:1.2rem; }
+.lang-btn { background:transparent; border:1px solid #c8a84b; color:#c8a84b; border-radius:4px; padding:0.28rem 0.55rem; font-size:1rem; cursor:pointer; font-weight:500; line-height:1; }
+.lang-btn.active, .lang-btn:hover { background:rgba(200,168,75,0.2); border-color:#c8a84b; }
+
+/* SECTIONS */
+section { padding:2.4rem 1.5rem; max-width:880px; margin:0 auto; }
+.sec-title { font-family:Georgia,serif; font-size:1.65rem; font-weight:400; color:var(--blue-dark); margin-bottom:0.3rem; }
+.sec-rule { width:44px; height:2px; background:var(--green); margin-bottom:1.4rem; }
+.welcome-text { font-size:0.97rem; line-height:1.85; }
+.bavarian { font-family:Georgia,serif; font-style:italic; color:var(--blue-dark); font-size:1.05rem; display:block; margin-top:0.8rem; }
+
+/* CARDS */
+.info-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:14px; margin-top:1.5rem; }
+.info-card { background:white; border:0.5px solid var(--border); border-radius:10px; padding:1rem 1.1rem; border-top:3px solid var(--blue-mid); }
+.info-card-title { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-mid); font-weight:600; margin-bottom:0.5rem; }
+.info-card p { font-size:0.9rem; line-height:1.65; }
+.info-card a { color:var(--blue-mid); text-decoration:none; }
+
+/* MENU */
+.menu-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:1.6rem; }
+.menu-tab {
+  padding:0.45rem 1.2rem; font-size:0.87rem;
+  border:1px solid #8b1a1a; color:#8b1a1a; cursor:pointer;
+  background: white;
+  border-radius: 3px;
+  font-family: Georgia, serif;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.menu-tab.active, .menu-tab:hover {
+  background: #8b1a1a; color: white; border-color:#8b1a1a;
+}
+.menu-section { display:none; }
+.menu-section.active { display:block; }
+
+/* Kategorie-Überschrift — wie auf der echten Karte */
+.menu-section h3 {
+  font-family: Georgia, serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: #6b0f0f;
+  margin: 1.4rem 0 0.6rem;
+  text-align: left;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #8b1a1a;
+  position: relative;
+}
+.menu-section h3::before { display:none; }
+.menu-section h3::after  { display:none; }
+
+/* Speisekarte Hintergrund — weißes Papier */
+#menu-sec {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin: 1.2rem auto;
+}
+#menu-sec::before { display:none; }
+
+.menu-item {
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:0.45rem 0; gap:10px;
+  border-bottom: none;
+}
+.menu-item:last-child { border-bottom:none; }
+.item-name { font-size:0.95rem; color:#3a0a0a; font-family: Georgia, serif; }
+.item-detail { font-size:0.8rem; color:#888; margin-top:1px; font-family: Georgia, serif; }
+.item-price {
+  font-size:0.95rem; color:#3a0a0a; font-weight:400;
+  white-space:nowrap; font-family: Georgia, serif;
+}
+
+/* Tagesgerichte Hinweis */
+#tab-food > div:first-child {
+  background: #fff8f0 !important;
+  border-left: 3px solid #8b1a1a !important;
+  border-radius: 4px;
+  color: #3a0a0a !important;
+}
+#tab-food > div:first-child a { color:#8b1a1a !important; }
+
+/* MAP */
+.map-wrap { border-radius:10px; overflow:hidden; border:0.5px solid var(--border); width:100%; height:360px; }
+.map-wrap iframe { width:100%; height:100%; border:none; }
+
+/* GALERIE */
+#gallery-sec { background: #fff; border-radius:8px; border:1px solid #ddd; margin:1.2rem auto; }
+
+.gallery-main {
+  position: relative; width:100%; aspect-ratio:16/9;
+  background:#1a2540; border-radius:6px; overflow:hidden;
+  cursor:pointer;
+}
+.gallery-main img {
+  width:100%; height:100%; object-fit:cover;
+  transition: opacity 0.4s ease;
+}
+.gallery-arrow {
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:rgba(255,255,255,0.85); border:none; border-radius:50%;
+  width:42px; height:42px; font-size:1.1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:#6b0f0f; box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  transition: background 0.15s; z-index:10;
+}
+.gallery-arrow:hover { background:white; }
+.gallery-arrow.prev { left:12px; }
+.gallery-arrow.next { right:12px; }
+.gallery-counter {
+  position:absolute; bottom:10px; right:14px;
+  background:rgba(0,0,0,0.45); color:white;
+  font-size:0.78rem; padding:3px 9px; border-radius:10px;
+  font-family: Georgia, serif;
+}
+
+.gallery-thumbs {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
+  margin-top:10px;
+}
+.gallery-thumb {
+  aspect-ratio:1/1; overflow:hidden; border-radius:4px;
+  cursor:pointer; border:2px solid transparent;
+  transition: border-color 0.15s, opacity 0.15s;
+  opacity:0.65;
+}
+.gallery-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.gallery-thumb.active { border-color:#8b1a1a; opacity:1; }
+.gallery-thumb:hover { opacity:1; }
+
+/* FOOTER */
+footer { background:#0d2347; color:#8aaad4; text-align:center; padding:2rem 1.5rem; font-size:0.85rem; line-height:1.9; }
+footer a { color:#b8cce8; }
+.footer-name { font-family:Georgia,serif; font-size:1.05rem; color:#c8d8f0; margin-bottom:0.4rem; }
+
+/* MODAL */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; align-items:center; justify-content:center; padding:1rem; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#f7f9fc; border-radius:12px; max-width:680px; width:100%; max-height:88vh; overflow-y:auto; padding:2rem 2rem 1.5rem; position:relative; }
+.modal-close { position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.4rem; cursor:pointer; color:#666; line-height:1; }
+.modal-close:hover { color:#1a3a6b; }
+.modal-box h2 { font-family:Georgia,serif; font-size:1.4rem; font-weight:400; color:#1a3a6b; margin-bottom:0.3rem; }
+.modal-box .sec-rule { margin-bottom:1.2rem; }
+.modal-box h3 { font-size:0.95rem; font-weight:600; color:#2855a0; margin:1.2rem 0 0.3rem; }
+.modal-box p, .modal-box li { font-size:0.9rem; line-height:1.75; color:#1a2540; }
+.modal-box ul { padding-left:1.2rem; margin-top:0.3rem; }
+.modal-box a { color:#2855a0; }
+/* COOKIE BANNER */
+.cookie-banner {
+  position:fixed; bottom:0; left:0; right:0; z-index:2000;
+  background:#0d2347; color:#c8d8f0;
+  padding:1.1rem 1.5rem; display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:1rem;
+  border-top:2px solid #c8a84b;
+  box-shadow:0 -4px 24px rgba(0,0,0,0.3);
+}
+.cookie-banner p { font-size:0.87rem; line-height:1.6; margin:0; flex:1; min-width:220px; }
+.cookie-banner a { color:#c8a84b; }
+.cookie-btns { display:flex; gap:8px; flex-shrink:0; }
+.cookie-accept {
+  background:#c8a84b; color:#0d2347; border:none;
+  border-radius:5px; padding:0.55rem 1.4rem;
+  font-size:0.87rem; font-weight:600; cursor:pointer;
+}
+.cookie-accept:hover { background:#e0c06a; }
+.cookie-decline {
+  background:transparent; color:#c8d8f0;
+  border:1px solid #4a6fa5; border-radius:5px;
+  padding:0.55rem 1.1rem; font-size:0.87rem; cursor:pointer;
+}
+.cookie-decline:hover { border-color:#c8a84b; color:#c8a84b; }
+@media(max-width:900px) {
+  .hero { padding:1.5rem 1rem 1.4rem; }
+  .hero-frame { max-width:100%; }
+  section { padding:2rem 1.2rem; }
+  .lang-sw { position:static; }
+  nav { justify-content:center; gap:0; }
+  .nav-links { justify-content:center; }
+}
+
+/* SMARTPHONE */
+@media(max-width:600px) {
+  .hero { padding:1rem 0.7rem 1.2rem; }
+  .hero-frame {
+    border-width:3px;
+    box-shadow: 0 0 0 1px #1a3a6b, 0 0 0 4px #c8a84b, 0 4px 18px rgba(0,0,0,0.4);
+  }
+  .hero-banner { max-height:220px; object-position:center center; }
+  .hero-cta { padding:0.6rem 1.5rem; font-size:0.85rem; }
+
+  nav { flex-direction:column; padding:0; }
+  .nav-links { width:100%; justify-content:center; }
+  nav a { padding:0.7rem 0.9rem; font-size:0.82rem; letter-spacing:0.03em; }
+  .lang-sw { position:static; width:100%; justify-content:center; padding:0.5rem 0 0.7rem; border-top:1px solid rgba(200,168,75,0.2); }
+
+  .sec-title { font-size:1.35rem; }
+  .info-grid { grid-template-columns:1fr; }
+  .menu-tabs { gap:6px; }
+  .menu-tab { font-size:0.8rem; padding:0.38rem 0.85rem; }
+  .item-name { font-size:0.87rem; }
+  .item-price { font-size:0.87rem; }
+  .map-wrap { height:260px; }
+
+  .modal-box { padding:1.3rem 1.1rem; }
+  footer { font-size:0.8rem; padding:1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+  <p>
+    🍪 Diese Website verwendet Google Maps, das Cookies und Daten an Google überträgt.
+    Durch Klick auf „Akzeptieren" stimmen Sie dem zu.
+    Mehr Infos in unserer <button onclick="openModal('datenschutz')" style="background:none;border:none;color:#c8a84b;cursor:pointer;font-size:0.87rem;padding:0;text-decoration:underline;">Datenschutzerklärung</button>.
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-decline" onclick="cookieDecline()">Nur notwendige</button>
+    <button class="cookie-accept" onclick="cookieAccept()">Akzeptieren</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-frame">
+    <img class="hero-banner" src="banner.jpg" alt="Herzlich Willkommen auf der Huabaoim"
+      onerror="this.style.minHeight='260px';this.style.background='#1a3a6b';">
+  </div>
+  <div class="hero-cta-wrap">
+    <button class="hero-cta" id="hcta" onclick="document.getElementById('menu-sec').scrollIntoView({behavior:'smooth'})">Zur Speisekarte</button>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-links">
+    <a id="n1" onclick="document.getElementById('welcome-sec').scrollIntoView({behavior:'smooth'})">Willkommen</a>
+    <a id="n2" onclick="document.getElementById('menu-sec').scrollIntoView({behavior:'smooth'})">Speisekarte</a>
+    <a id="n3" onclick="document.getElementById('hours-sec').scrollIntoView({behavior:'smooth'})">Öffnungszeiten</a>
+    <a id="n4" onclick="document.getElementById('gallery-sec').scrollIntoView({behavior:'smooth'})">Impressionen</a>
+    <a id="n5" onclick="document.getElementById('contact-sec').scrollIntoView({behavior:'smooth'})">Kontakt</a>
+  </div>
+  <div class="lang-sw">
+    <button class="lang-btn active" id="btn-de" onclick="setLang('de')" title="Deutsch">🇩🇪</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')" title="English">🇬🇧</button>
+  </div>
+</nav>
+
+<!-- WELCOME -->
+<section id="welcome-sec">
+  <div class="sec-title" id="sec-welcome-title">Herzlich Willkommen</div>
+  <div class="sec-rule"></div>
+  <div class="welcome-text" id="welcome-body">
+    <p>Erleben Sie bayrische Gastlichkeit und Lebensfreude mit malerischer Aussicht auf die Schlierseer Berge. Nach dem Motto <em>„regional find i genial"</em> legen wir großen Wert darauf, die Produkte aus unserer Alpenregion Schliersee – Tegernsee und Umgebung anzubieten.</p>
+    <span class="bavarian">Freu'n uns, wenns kemmd's! &nbsp;— Marion &amp; Wolfgang</span>
+    <p style="margin-top:0.8rem">Unsere Kaffeehaferl gibt's bei uns zum Kaufen – ois kleins Andenken. Geschenkidee – Gutschein von der Huabaoim.</p>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-title" id="ic1t">Öffnungszeiten</div>
+      <p id="ic1b">Freitag, Samstag, Sonntag &amp; Feiertage<br><strong>11:00 – 21:00 Uhr</strong></p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title" id="ic2t">Reservierungen</div>
+      <p id="ic2b">Feiern und Veranstaltungen auch an anderen Tagen gerne nach Absprache.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title">Adresse</div>
+      <p>Huberbergalm<br>83734 Hausham</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1.4rem;margin-top:1.6rem;padding:1rem 1.1rem;background:#fdf8f4;border-radius:8px;border:0.5px solid #e0c97a;">
+    <img src="gastgeber1.jpg" alt="Marion Köll"
+      style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #c8a84b;flex-shrink:0;"
+      onerror="this.style.display='none'">
+    <div>
+      <div style="font-family:Georgia,serif;font-style:italic;color:#6b0f0f;font-size:1rem;margin-bottom:0.3rem;" id="host-name">Eure Gastgeberin</div>
+      <div style="font-size:0.92rem;font-weight:500;color:#2a1f0a;">Marion Köll</div>
+      <div style="font-size:0.85rem;color:#666;margin-top:0.2rem;" id="host-desc">Inhaberin &amp; Gastgeberin der Huabaoim</div>
+    </div>
+  </div>
+
+</section>
+<section id="menu-sec">
+  <div class="sec-title" id="menu-title">Speisekarte</div>
+  <div class="sec-rule"></div>
+  <div class="menu-tabs">
+    <button class="menu-tab active" id="tab-food-btn" onclick="showTab('food',this)">Speisen</button>
+    <button class="menu-tab" id="tab-drinks-btn" onclick="showTab('drinks',this)">Getränke</button>
+    <button class="menu-tab" id="tab-coffee-btn" onclick="showTab('coffee',this)">Kaffee</button>
+  </div>
+
+  <div id="tab-food" class="menu-section active">
+    <div style="background:#e8f0fb;border-left:3px solid #2855a0;border-radius:6px;padding:0.75rem 1rem;margin-bottom:1.2rem;font-size:0.9rem;line-height:1.6;">
+      <span id="daily-note-text">🍽️ <strong>Tagesgerichte:</strong> Je nach Saison und Verfügbarkeit gibt es bei uns wechselnde Tagesgerichte. Aktuelle Infos immer auf unserem <a href="https://wa.me/491727089093" target="_blank" style="color:#2855a0;font-weight:500;">WhatsApp-Status</a> oder auf <a href="https://www.facebook.com/Huabaoim/?locale=de_DE" target="_blank" style="color:#2855a0;font-weight:500;">Facebook</a>!</span>
+    </div>
+    <h3 id="mh-savory">Herzhaftes</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="1 Paar Debreziner mit Senft und Brot" data-en="1 Pair Debreziner with mustard &amp; bread">1 Paar Debreziner mit Senft und Brot</div></div><div class="item-price">5,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="2 Paar Wiener mit Senft und Brot" data-en="2 Pair Wiener with mustard &amp; bread">2 Paar Wiener mit Senft und Brot</div></div><div class="item-price">8,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Speckbrot oder Kasbrot" data-en="Speck bread or cheese bread">Speckbrot oder Kasbrot</div></div><div class="item-price">7,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Boarischer Wurstsalat mit Brot" data-en="Bavarian sausage salad with bread">Boarischer Wurstsalat mit Brot</div></div><div class="item-price">9,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Schweizer Wurstsalat mit Brot" data-en="Swiss sausage salad with bread">Schweizer Wurstsalat mit Brot</div></div><div class="item-price">10,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Scheibe Leberkas mit Brot und Gurke" data-en="Slice of Leberkäs with bread &amp; gherkin">Scheibe Leberkas mit Brot und Gurke</div></div><div class="item-price">6,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Oimtrio – Speck/Kas-Obazda oder Griam mit Brot" data-en="Alm Trio — Speck, Obazda or Griam with bread">Oimtrio – Speck/Kas-Obazda oder Griam mit Brot</div></div><div class="item-price">14,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Obazda – seiba gmachd mit Brot" data-en="Obazda — homemade, with bread">Obazda – seiba gmachd mit Brot</div></div><div class="item-price">9,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Griamschmoizbrot" data-en="Griamschmoizbrot">Griamschmoizbrot</div></div><div class="item-price">5,00 €</div></div>
+    <h3 id="mh-sweet">Süßes</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Kaiserschmarrn (konn manchmoi bissl dauern ☺)" data-en="Kaiserschmarrn — may take a little while ☺">Kaiserschmarrn (konn manchmoi bissl dauern ☺)</div></div><div class="item-price">14,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Kuchen/Torten seiba gmachd" data-en="Homemade cakes &amp; tarts">Kuchen/Torten seiba gmachd</div></div><div class="item-price">4,50 €</div></div>
+  </div>
+
+  <div id="tab-drinks" class="menu-section">
+    <h3 id="mh-nonalc">Alkoholfrei</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Tafelwasser" data-en="Still water">Tafelwasser</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Limo Zitrone" data-en="Lemon lemonade">Limo Zitrone</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Spezi Paulaner" data-en="Spezi Paulaner">Spezi Paulaner</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Almdudler" data-en="Almdudler">Almdudler</div><div class="item-detail">0,33 l</div></div><div class="item-price">4,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Apfelschorle" data-en="Apple spritzer">Apfelschorle</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Johannisbeerschorle" data-en="Blackcurrant spritzer">Johannisbeerschorle</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Maracujaschorle" data-en="Passion fruit spritzer">Maracujaschorle</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hollerschorle" data-en="Elderflower spritzer">Hollerschorle</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <h3 id="mh-beer">Bier</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Chiemseer Hell" data-en="Chiemseer Hell">Chiemseer Hell</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Chiemseer Hell" data-en="Chiemseer Hell">Chiemseer Hell</div><div class="item-detail">0,33 l</div></div><div class="item-price">3,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Radler Hoibe" data-en="Radler half pint">Radler Hoibe</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hacker Dunkel" data-en="Hacker Dunkel (dark lager)">Hacker Dunkel</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hopf Weißbier" data-en="Hopf Weißbier (wheat beer)">Hopf Weißbier</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hopf Weißbier – Die Leichtere" data-en="Hopf Weißbier — light">Hopf Weißbier – Die Leichtere</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hopf Weißbier – alkoholfrei" data-en="Hopf Weißbier — alcohol-free">Hopf Weißbier – alkoholfrei</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Hopf Weißbier – dunkel" data-en="Hopf Weißbier — dark">Hopf Weißbier – dunkel</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Ruß'n Hoibe" data-en="Russ'n half pint">Ruß'n Hoibe</div><div class="item-detail">0,50 l</div></div><div class="item-price">4,50 €</div></div>
+    <h3 id="mh-wine">Wein &amp; Sekt</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Hauswein rot oder weiß" data-en="House wine red or white">Hauswein rot oder weiß</div><div class="item-detail">0,25 l</div></div><div class="item-price">6,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Weissburgunder" data-en="Pinot Blanc">Weissburgunder</div><div class="item-detail">0,25 l</div></div><div class="item-price">7,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Primitivo" data-en="Primitivo (red wine)">Primitivo</div><div class="item-detail">0,25 l</div></div><div class="item-price">7,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Weinschorle" data-en="Wine spritzer">Weinschorle</div><div class="item-detail">0,50 l</div></div><div class="item-price">7,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Glas Prosecco" data-en="Glass of Prosecco">Glas Prosecco</div><div class="item-detail">0,10 l</div></div><div class="item-price">3,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Flasche Prosecco" data-en="Bottle of Prosecco">Flasche Prosecco</div><div class="item-detail">0,75 l</div></div><div class="item-price">22,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Flasche Valdo Prosecco" data-en="Bottle of Valdo Prosecco">Flasche Valdo Prosecco</div><div class="item-detail">0,75 l</div></div><div class="item-price">25,00 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Aperol-Sprizz / Hugo / Dudlsprizz" data-en="Aperol Spritz / Hugo / Dudlsprizz">Aperol-Sprizz / Hugo / Dudlsprizz</div><div class="item-detail">0,3 l</div></div><div class="item-price">7,50 €</div></div>
+    <h3 id="mh-schnaps">Schnapserl</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Williamsbirne · Enzian · Haselnuss · Eierlikör" data-en="Williams pear · Enzian · Hazelnut · Advocaat">Williamsbirne · Enzian · Haselnuss · Eierlikör</div><div class="item-detail">2 cl</div></div><div class="item-price">3,00 €</div></div>
+  </div>
+
+  <div id="tab-coffee" class="menu-section">
+    <h3 id="mh-coffee">Heiße Getränke</h3>
+    <div class="menu-item"><div><div class="item-name" data-de="Espresso" data-en="Espresso">Espresso</div></div><div class="item-price">2,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Haferl Cappuccino oder Milchkaffee" data-en="Cappuccino or Milky Coffee (Haferl)">Haferl Cappuccino oder Milchkaffee</div></div><div class="item-price">4,50 €</div></div>
+    <div class="menu-item"><div><div class="item-name" data-de="Haferl Kaffee oder Tee" data-en="Coffee or Tea (Haferl)">Haferl Kaffee oder Tee</div></div><div class="item-price">4,00 €</div></div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- HOURS -->
+<section id="hours-sec">
+  <div class="sec-title" id="hours-title">Öffnungszeiten</div>
+  <div class="sec-rule"></div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-title" id="h1t">Reguläre Zeiten</div>
+      <p id="h1b">Freitag, Samstag, Sonntag &amp; Feiertage<br><strong>11:00 – 21:00 Uhr</strong></p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title" id="h2t">Feiern &amp; Veranstaltungen</div>
+      <p id="h2b">Reservierungen auch an anderen Tagen gerne nach Absprache möglich.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- GALLERY -->
+<section id="gallery-sec">
+  <div class="sec-title" id="gallery-title">Impressionen</div>
+  <div class="sec-rule"></div>
+
+  <div class="gallery-main" onclick="galleryNext()">
+    <img id="gallery-img" src="impression1.jpg" alt="Impression 1"
+      onerror="this.src='';this.parentElement.style.background='#2a1a1a';this.style.display='none'">
+    <button class="gallery-arrow prev" onclick="event.stopPropagation();galleryPrev()">&#8249;</button>
+    <button class="gallery-arrow next" onclick="event.stopPropagation();galleryNext()">&#8250;</button>
+    <div class="gallery-counter"><span id="gallery-cur">1</span> / 10</div>
+  </div>
+
+  <div class="gallery-thumbs">
+    <div class="gallery-thumb active" onclick="galleryGo(0)" id="thumb-0"><img src="impression1.jpg" alt="1" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(1)" id="thumb-1"><img src="impression2.jpg" alt="2" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(2)" id="thumb-2"><img src="impression3.jpg" alt="3" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(3)" id="thumb-3"><img src="impression4.jpg" alt="4" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(4)" id="thumb-4"><img src="impression5.jpg" alt="5" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(5)" id="thumb-5"><img src="impression6.jpg" alt="6" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(6)" id="thumb-6"><img src="impression7.jpg" alt="7" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(7)" id="thumb-7"><img src="impression8.jpg" alt="8" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(8)" id="thumb-8"><img src="impression9.jpg" alt="9" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+    <div class="gallery-thumb" onclick="galleryGo(9)" id="thumb-9"><img src="impression10.jpg" alt="10" onerror="this.parentElement.style.background='#ddd';this.style.display='none'"></div>
+  </div>
+</section>
+
+<hr class="div">
+<section id="contact-sec">
+  <div class="sec-title" id="contact-title">Kontakt &amp; Anfahrt</div>
+  <div class="sec-rule"></div>
+  <div class="info-grid" style="margin-bottom:1.6rem">
+    <div class="info-card">
+      <div class="info-card-title" id="ct1">Adresse</div>
+      <p>Huberbergalm<br>83734 Hausham<br>Bayern, Deutschland</p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title" id="ct2">Telefon &amp; E-Mail</div>
+      <p>
+        <a href="tel:+498026924484">08026 – 92 44 840</a><br>
+        <a href="tel:+4901727089093">0172 – 708 90 93</a><br>
+        <a href="mailto:info@huabaoim.de">info@huabaoim.de</a>
+      </p>
+    </div>
+    <div class="info-card">
+      <div class="info-card-title" id="ct3">Inhaberin</div>
+      <p>Marion Köll<br><a href="http://www.huabaoim.de" target="_blank">www.huabaoim.de</a></p>
+    </div>
+  </div>
+  <!-- Google Maps embed – Huberbergalm, 83727 Schliersee -->
+  <div class="map-wrap">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1282.3!2d11.8764!3d47.7338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477696e2b3e3b3b3%3A0x0!2sHuberbergalm%2C+83727+Schliersee!5e0!3m2!1sde!2sde!4v1"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      title="Huabaoim auf Google Maps">
+    </iframe>
+  </div>
+</section>
+
+<!-- IMPRESSUM MODAL -->
+<div class="modal-overlay" id="modal-impressum" onclick="closeModal('impressum')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('impressum')">&times;</button>
+    <h2>Impressum</h2>
+    <div class="sec-rule"></div>
+    <h3>Angaben gemäß § 5 TMG</h3>
+    <p>Marion Köll<br>Huabaoim – Café-Almwirtschaft<br>Huberbergalm<br>83734 Hausham<br>Deutschland</p>
+    <h3>Kontakt</h3>
+    <p>
+      Telefon: <a href="tel:+498026924484">08026 – 92 44 840</a><br>
+      Mobil: <a href="tel:+4901727089093">0172 – 708 90 93</a><br>
+      E-Mail: <a href="mailto:info@huabaoim.de">info@huabaoim.de</a>
+    </p>
+    <h3>Umsatzsteuer-ID</h3>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br>
+    <em>Bitte hier Ihre USt-IdNr. eintragen oder Abschnitt entfernen falls nicht zutreffend.</em></p>
+    <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
+    <p>Marion Köll<br>Huberbergalm, 83734 Hausham</p>
+    <h3>Haftungsausschluss</h3>
+    <p>Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich.</p>
+    <h3>Urheberrecht</h3>
+    <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+  </div>
+</div>
+
+<!-- DATENSCHUTZ MODAL -->
+<div class="modal-overlay" id="modal-datenschutz" onclick="closeModal('datenschutz')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('datenschutz')">&times;</button>
+    <h2>Datenschutzerklärung</h2>
+    <div class="sec-rule"></div>
+    <h3>1. Datenschutz auf einen Blick</h3>
+    <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>
+    <h3>2. Verantwortliche Stelle</h3>
+    <p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br><br>
+    Marion Köll · Huabaoim – Café-Almwirtschaft<br>
+    Huberbergalm · 83734 Hausham<br>
+    E-Mail: <a href="mailto:info@huabaoim.de">info@huabaoim.de</a></p>
+    <h3>3. Datenerfassung auf dieser Website</h3>
+    <p>Diese Website erhebt und speichert automatisch Daten in Server-Logfiles, die Ihr Browser übermittelt. Dies sind: Browsertyp und -version, verwendetes Betriebssystem, Referrer-URL, Hostname des zugreifenden Rechners sowie Uhrzeit der Serveranfrage. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.</p>
+    <h3>4. Google Maps</h3>
+    <p>Diese Website nutzt den Kartendienst Google Maps der Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Zur Nutzung der Funktionen von Google Maps ist es notwendig, Ihre IP-Adresse zu speichern. Diese Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Die Nutzung von Google Maps erfolgt im Interesse einer ansprechenden Darstellung unserer Online-Angebote und an einer leichten Auffindbarkeit der von uns auf der Website angegebenen Orte (berechtigtes Interesse gem. Art. 6 Abs. 1 lit. f DSGVO). Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der <a href="https://policies.google.com/privacy" target="_blank">Datenschutzerklärung von Google</a>.</p>
+    <h3>5. Kontaktformular / E-Mail</h3>
+    <p>Wenn Sie uns per E-Mail kontaktieren, werden Ihre Angaben inklusive der von Ihnen angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>
+    <h3>6. Ihre Rechte</h3>
+    <p>Sie haben jederzeit das Recht auf:</p>
+    <ul>
+      <li>Auskunft über Ihre gespeicherten personenbezogenen Daten (Art. 15 DSGVO)</li>
+      <li>Berichtigung unrichtiger Daten (Art. 16 DSGVO)</li>
+      <li>Löschung Ihrer Daten (Art. 17 DSGVO)</li>
+      <li>Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+      <li>Datenübertragbarkeit (Art. 20 DSGVO)</li>
+      <li>Widerspruch gegen die Verarbeitung (Art. 21 DSGVO)</li>
+    </ul>
+    <p style="margin-top:0.8rem">Zur Ausübung Ihrer Rechte wenden Sie sich bitte an: <a href="mailto:info@huabaoim.de">info@huabaoim.de</a><br>
+    Sie haben außerdem das Recht, sich bei der zuständigen Datenschutz-Aufsichtsbehörde zu beschweren.</p>
+    <h3>7. Aktualität dieser Erklärung</h3>
+    <p>Diese Datenschutzerklärung ist aktuell gültig und hat den Stand April 2025.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-name">Huabaoim · Café-Almwirtschaft</div>
+      Huberbergalm · 83734 Hausham<br>
+  <a href="mailto:info@huabaoim.de">info@huabaoim.de</a> &nbsp;·&nbsp;
+  <a href="http://www.huabaoim.de">www.huabaoim.de</a>
+  <div style="margin-top:0.7rem;">
+    <a href="https://www.facebook.com/Huabaoim/?locale=de_DE" target="_blank" style="color:#8aaad4;font-size:0.85rem;text-decoration:none;margin:0 0.4rem;">📘 Facebook</a>
+    &nbsp;·&nbsp;
+    <a href="https://wa.me/491727089093" target="_blank" style="color:#8aaad4;font-size:0.85rem;text-decoration:none;margin:0 0.4rem;">💬 WhatsApp-Status</a>
+  </div>
+  <div style="margin-top:0.5rem;">
+    <button onclick="openModal('impressum')" style="background:none;border:none;color:#8aaad4;font-size:0.82rem;cursor:pointer;text-decoration:underline;margin:0 0.5rem;">Impressum</button>
+    &nbsp;·&nbsp;
+    <button onclick="openModal('datenschutz')" style="background:none;border:none;color:#8aaad4;font-size:0.82rem;cursor:pointer;text-decoration:underline;margin:0 0.5rem;">Datenschutz</button>
+  </div>
+  <div style="margin-top:0.5rem;color:#5a7aaa;font-size:0.78rem;">© Huabaoim · Marion Köll</div>
+</footer>
+
+<script>
+const T = {
+  de: {
+    hw:"Willkommen auf der Huabaoim — Kaffädschal und vui Guads",
+    hcta:"Zur Speisekarte",
+    n1:"Willkommen",n2:"Speisekarte",n3:"Öffnungszeiten",n4:"Impressionen",n5:"Kontakt",
+    "sec-welcome-title":"Herzlich Willkommen",
+    "menu-title":"Speisekarte",
+    "tab-food-btn":"Speisen","tab-drinks-btn":"Getränke","tab-coffee-btn":"Kaffee",
+    "hours-title":"Öffnungszeiten",
+    "contact-title":"Kontakt &amp; Anfahrt",
+    ic1t:"Öffnungszeiten",ic1b:"Freitag, Samstag, Sonntag &amp; Feiertage<br><strong>11:00 – 21:00 Uhr</strong>",
+    ic2t:"Reservierungen",ic2b:"Feiern und Veranstaltungen auch an anderen Tagen gerne nach Absprache.",
+    h1t:"Reguläre Zeiten",h1b:"Freitag, Samstag, Sonntag &amp; Feiertage<br><strong>11:00 – 21:00 Uhr</strong>",
+    "host-name":"Eure Gastgeberin", "host-desc":"Inhaberin &amp; Gastgeberin der Huabaoim",
+    "gallery-title":"Impressionen",
+    h2t:"Feiern &amp; Veranstaltungen",h2b:"Reservierungen auch an anderen Tagen gerne nach Absprache möglich.",
+    ct1:"Adresse",ct2:"Telefon &amp; E-Mail",ct3:"Inhaberin",
+    "mh-savory":"Herzhaftes","mh-sweet":"Süßes",
+    "mh-nonalc":"Alkoholfrei","mh-beer":"Bier","mh-wine":"Wein &amp; Sekt","mh-schnaps":"Schnapserl",
+    "mh-coffee":"Heiße Getränke",
+    dailyNote:`🍽️ <strong>Tagesgerichte:</strong> Je nach Saison und Verfügbarkeit gibt es bei uns wechselnde Tagesgerichte. Aktuelle Infos immer auf unserem <a href="https://wa.me/491727089093" target="_blank" style="color:#2855a0;font-weight:500;">WhatsApp-Status</a> oder auf <a href="https://www.facebook.com/Huabaoim/?locale=de_DE" target="_blank" style="color:#2855a0;font-weight:500;">Facebook</a>!`,
+    welcomeBody:`<p>Erleben Sie bayrische Gastlichkeit und Lebensfreude mit malerischer Aussicht auf die Schlierseer Berge. Nach dem Motto <em>„regional find i genial"</em> legen wir großen Wert darauf, die Produkte aus unserer Alpenregion Schliersee – Tegernsee und Umgebung anzubieten.</p><span class="bavarian">Freu'n uns, wenns kemmd's! &nbsp;— Marion &amp; Wolfgang</span><p style="margin-top:0.8rem">Unsere Kaffeehaferl gibt's bei uns zum Kaufen – ois kleins Andenken. Geschenkidee – Gutschein von der Huabaoim.</p>`
+  },
+  en: {
+    hw:"Welcome to the Huabaoim — Coffee &amp; Good Things",
+    hcta:"View Menu",
+    n1:"Welcome",n2:"Menu",n3:"Opening Hours",n4:"Gallery",n5:"Contact",
+    "sec-welcome-title":"Welcome",
+    "menu-title":"Menu",
+    "tab-food-btn":"Food","tab-drinks-btn":"Drinks","tab-coffee-btn":"Coffee",
+    "hours-title":"Opening Hours",
+    "contact-title":"Contact &amp; Directions",
+    ic1t:"Opening Hours",ic1b:"Friday, Saturday, Sunday &amp; public holidays<br><strong>11:00 AM – 9:00 PM</strong>",
+    ic2t:"Reservations",ic2b:"Private events and celebrations also possible on other days — please get in touch.",
+    h1t:"Regular Hours",h1b:"Friday, Saturday, Sunday &amp; public holidays<br><strong>11:00 AM – 9:00 PM</strong>",
+    h2t:"Events &amp; Celebrations",h2b:"Reservations for private events also possible on other days by arrangement.",
+    "host-name":"Your Host", "host-desc":"Owner &amp; Host of the Huabaoim",
+    "gallery-title":"Gallery",
+    h2t:"Events &amp; Celebrations",h2b:"Reservations for private events also possible on other days by arrangement.",
+    ct1:"Address",ct2:"Phone &amp; Email",ct3:"Owner",
+    "mh-savory":"Savoury","mh-sweet":"Sweet",
+    "mh-nonalc":"Non-Alcoholic","mh-beer":"Beer","mh-wine":"Wine &amp; Sparkling","mh-schnaps":"Schnapps",
+    "mh-coffee":"Hot Drinks",
+    dailyNote:`🍽️ <strong>Daily specials:</strong> Depending on the season and availability, we offer changing daily dishes. Check our <a href="https://wa.me/491727089093" target="_blank" style="color:#2855a0;font-weight:500;">WhatsApp status</a> or <a href="https://www.facebook.com/Huabaoim/?locale=de_DE" target="_blank" style="color:#2855a0;font-weight:500;">Facebook</a> for the latest!`,
+    welcomeBody:`<p>Experience Bavarian hospitality and joie de vivre with a breathtaking view of the Schliersee mountains. Under our motto <em>"regional is brilliant"</em>, we take great pride in offering products from our Alpine region around Schliersee, Tegernsee and the surrounding area.</p><span class="bavarian">Freu'n uns, wenns kemmd's! &nbsp;— Marion &amp; Wolfgang</span><p style="margin-top:0.8rem">Our handcrafted coffee cups are available as a small souvenir. Gift idea: a Huabaoim voucher!</p>`
+  }
+};
+
+function setLang(lang) {
+  const t = T[lang];
+  document.getElementById('btn-de').classList.toggle('active', lang==='de');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.documentElement.lang = lang;
+  ['hw','hcta','n1','n2','n3','n4','n5','sec-welcome-title','menu-title',
+   'tab-food-btn','tab-drinks-btn','tab-coffee-btn','hours-title','contact-title',
+   'gallery-title','ic1t','ic2t','h1t','h2t','ct1','ct2','ct3',
+   'mh-savory','mh-sweet','mh-nonalc','mh-beer','mh-wine','mh-schnaps','mh-coffee',
+   'host-name','host-desc'
+  ].forEach(id => { const el=document.getElementById(id); if(el) el.innerHTML=t[id]; });
+  document.getElementById('ic1b').innerHTML = t.ic1b;
+  document.getElementById('ic2b').innerHTML = t.ic2b;
+  document.getElementById('h1b').innerHTML = t.h1b;
+  document.getElementById('h2b').innerHTML = t.h2b;
+  document.getElementById('h2b').innerHTML = t.h2b;
+  document.getElementById('welcome-body').innerHTML = t.welcomeBody;
+  document.getElementById('daily-note-text').innerHTML = t.dailyNote;
+  document.querySelectorAll('.item-name[data-de]').forEach(el => {
+    el.innerHTML = el.getAttribute('data-'+lang) || el.getAttribute('data-de');
+  });
+}
+
+let galIdx = 0;
+const galTotal = 10;
+function galleryGo(n) {
+  galIdx = (n + galTotal) % galTotal;
+  document.getElementById('gallery-img').src = 'impression'+(galIdx+1)+'.jpg';
+  document.getElementById('gallery-img').alt = 'Impression '+(galIdx+1);
+  document.getElementById('gallery-cur').textContent = galIdx+1;
+  document.querySelectorAll('.gallery-thumb').forEach((t,i) => t.classList.toggle('active', i===galIdx));
+}
+function galleryNext() { galleryGo(galIdx+1); }
+function galleryPrev() { galleryGo(galIdx-1); }
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if(e.key==='ArrowRight') galleryNext();
+  if(e.key==='ArrowLeft') galleryPrev();
+});
+
+function cookieAccept() {
+  document.getElementById('cookie-banner').style.display='none';
+}
+function cookieDecline() {
+  document.getElementById('cookie-banner').style.display='none';
+  document.querySelectorAll('.map-wrap iframe').forEach(el => {
+    el.outerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#e8f0fb;color:#2855a0;font-size:0.9rem;text-align:center;padding:1rem;">Google Maps wurde deaktiviert.<br>Bitte Cookies akzeptieren um die Karte zu sehen.</div>';
+  });
+}
+// Banner immer anzeigen — kein localStorage
+  document.getElementById('modal-'+id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-'+id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') { closeModal('impressum'); closeModal('datenschutz'); }
+});
+
+function showTab(name, btn) {
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
